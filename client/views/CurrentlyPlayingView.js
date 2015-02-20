@@ -13,10 +13,14 @@ var CurrentlyPlayingView = Backbone.View.extend({
     this.render();
   },
 
-  template: _.template('<i>Now playing: <%= artist %> - <%= title %></i>'),
+  template: _.template('<h2>Now playing: <%= artist %> - <%= title %></h2>'),
 
   render: function(){
-    return this.$el.html(this.template(this.model.attributes));
+    var count = this.model.playCount();
+    var vote = this.model.votes();
+    return this.$el.html(this.template(this.model.attributes)
+      + '<h3>Play Count: ' + count + '</h3>'
+    );
   }
 
 });
