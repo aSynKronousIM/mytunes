@@ -2,35 +2,37 @@
 var SongQueue = Songs.extend({
 
   initialize: function(){
-    //this.playFirst(); // KATE
-
-
-    this.on('enqueue', this.enqueue, this);
-    this.on('enqueue', this.playFirst, this);
+    this.on('add', this.enqueue, this);
     this.on('dequeue', this.dequeue, this);
+    this.on('ended', this.playNext, this);
   },
+
   playFirst: function(){
-    console.log(this.at(0));
-    // if (this.at(0)) {
-    if (this.at(0)) {
-      var song = this.at(0);
-      song.play();
-      //this.model.play();
-      this.dequeue();
-    }
-
-      // this.model.dequeue()
-    // if it does not exist, do nothing
-
+      this.at(0).play();
+    //}
   },
+
   enqueue: function(song) {
-    this.push(song);
+    if (this.length === 1) {
+      this.playFirst();
+    }
   },
 
   dequeue: function(song) {
-    this.remove(song);
+    if (this.at(0) === song) {
+      this.playNext();
+    } else {
+      this.remove(song);
+    }
+  },
+
+  playNext: function() {
+    this.shift();
+    if (this.length >= 1) {
+      this.playFirst();
+    } else {
+      this.trigger('stop');
+    }
   }
-
-
 
 });
