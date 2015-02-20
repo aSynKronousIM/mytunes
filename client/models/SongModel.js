@@ -15,6 +15,11 @@ var SongModel = Backbone.Model.extend({
 
   ended: function() {
     this.trigger('ended', this);
+  },
+
+  // voting & counting
+  votes: function() {
+    return this.get('votes');
   }
 
 });
